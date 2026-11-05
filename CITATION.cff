@@ -2,14 +2,14 @@ cff-version: 1.2.0
 message: "Si usas estos datos, cítalos con estos metadatos."
 type: dataset
 title: "IA para TOdas: catálogo de prompts, Gems, GPTs y artefactos para Terapia Ocupacional"
-abstract: "Catálogo abierto de 100 recursos de IA generativa (71 prompts, 10 Gems, 10 artefactos y 9 GPTs) para la práctica clínica, la docencia y la investigación en Terapia Ocupacional, con manual de uso responsable."
+abstract: "Catálogo abierto de 106 recursos de IA generativa (71 prompts, 10 Gems, 10 artefactos, 9 GPTs, 2 skills y agentes, y 4 juegos didácticos) para la práctica clínica, la docencia y la investigación en Terapia Ocupacional, con manual de uso responsable."
 authors:
   - family-names: "Calavia Balduz"
     given-names: "José María"
     orcid: "https://orcid.org/0009-0001-7105-2022"
     affiliation: "CSEU La Salle (adscrito a la UAM) y Centro Tangram"
 license: CC-BY-NC-SA-4.0
-version: 1.0.0
+version: 1.0.1
 date-released: 2026-11-06
 repository-code: "https://github.com/josemcalavia/ia-para-todas"
 url: "https://centrotangram.com/ia.html"

@@ -1,6 +1,6 @@
 {
   "title": "IA para TOdas: catálogo de prompts, Gems, GPTs y artefactos para Terapia Ocupacional",
-  "description": "<p>Catálogo abierto de 100 recursos de IA generativa (71 prompts, 10 Gems, 10 artefactos y 9 GPTs) para la práctica clínica, la docencia y la investigación en Terapia Ocupacional, con manual de uso responsable.</p>",
+  "description": "<p>Catálogo abierto de 106 recursos de IA generativa (71 prompts, 10 Gems, 10 artefactos, 9 GPTs, 2 skills y agentes, y 4 juegos didácticos) para la práctica clínica, la docencia y la investigación en Terapia Ocupacional, con manual de uso responsable.</p>",
   "upload_type": "dataset",
   "creators": [
     {
@@ -21,7 +21,7 @@
     "docencia"
   ],
   "language": "spa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "related_identifiers": [
     {
       "identifier": "https://centrotangram.com/ia.html",

@@ -22,6 +22,7 @@ Resumen: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es
 ## Lo que no cubre esta licencia
 
 - Los **Gems, GPTs y artefactos** enlazados se alojan en plataformas de terceros (Google, OpenAI, Anthropic), con sus propias condiciones de uso.
+- Los **juegos didácticos** se enlazan, no se incluyen. Pokémon es una marca registrada de sus titulares; los juegos que la usan son materiales educativos sin fines comerciales y no están afiliados a ellos.
 - Lo que cada persona genera con los prompts es suyo; su contenido y su uso son responsabilidad de quien los utiliza.
 
 ## Sin garantía
