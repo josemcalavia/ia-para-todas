@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google Analytics (gtag.js) con Consent Mode RGPD -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+
+        // Configuración por defecto: todo denegado
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied'
+        });
+
+        // Aplicar consentimiento guardado inmediatamente si existe
+        try {
+            const consentData = localStorage.getItem('tangram-cookie-consent');
+            if (consentData) {
+                const consent = JSON.parse(consentData);
+                gtag('consent', 'default', {
+                    'analytics_storage': consent.analytics ? 'granted' : 'denied',
+                    'ad_storage': consent.marketing ? 'granted' : 'denied',
+                    'ad_user_data': consent.marketing ? 'granted' : 'denied',
+                    'ad_personalization': consent.marketing ? 'granted' : 'denied'
+                });
+            }
+        } catch (e) {
+            console.error('Error al recuperar consentimiento de cookies:', e);
+        }
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPX08ESSV8"></script>
+    <script>
+        gtag('js', new Date());
+        gtag('config', 'G-ZPX08ESSV8');
+    </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manual de Uso de Prompts · IA para TOdas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/cookies.css">
+  <script>
+      if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      background: #F0F0F0;
+      padding: 24px 16px 48px;
+      color: #555;
+    }
+
+    /* ────────────────────────────────────────────────────
+       SECCIÓN CONTENEDORA
+       Pegar el <section id="manual-section"> en ia.html
+       antes del bloque de prompts.
+    ──────────────────────────────────────────────────── */
+    #manual-section {
+      max-width: 760px;
+      margin: 0 auto;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    /* CABECERA COLAPSABLE */
+    .manual-intro {
+      background: #fff;
+      border-radius: 16px;
+      padding: 22px 24px 18px;
+      margin-bottom: 12px;
+    }
+
+    .manual-intro-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .manual-intro h2 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 21px;
+      color: #00BCD4;
+      margin-bottom: 5px;
+    }
+
+    .manual-intro p {
+      font-size: 14px;
+      color: #777;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0;
+    }
+
+    /* BOTÓN TOGGLE */
+    #toggle-manual {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #00BCD4;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    #toggle-manual:hover { background: #0097A7; }
+
+    #toggle-manual .arrow {
+      display: inline-block;
+      transition: transform 0.25s;
+      font-style: normal;
+    }
+
+    #toggle-manual.open .arrow { transform: rotate(180deg); }
+
+    /* CONTENIDO DESPLEGABLE */
+    #manual-content {
+      display: none;
+      margin-top: 4px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    #manual-content.visible { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARDS */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 12px;
+    }
+
+    /* SECTION LABEL */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .section-label .tri {
+      display: inline-block;
+      width: 0; height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 12px solid #00BCD4;
+      flex-shrink: 0;
+    }
+
+    .section-label span {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #414042;
+    }
+
+    /* TIPOGRAFÍA */
+    .card h2 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 19px;
+      color: #414042;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #414042;
+      margin-bottom: 7px;
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .card p:last-child { margin-bottom: 0; }
+
+    /* STEPS */
+    .steps { counter-reset: step-counter; list-style: none; padding: 0; }
+
+    .steps li {
+      counter-increment: step-counter;
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 13px 0;
+      border-bottom: 1px solid #F0F0F0;
+    }
+
+    .steps li:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .steps li::before {
+      content: counter(step-counter);
+      background: #00BCD4;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 14px;
+      min-width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .steps li .step-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: #414042;
+      margin-bottom: 3px;
+    }
+
+    .steps li .step-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* PROMPT BOX */
+    .prompt-label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #00BCD4;
+      margin-bottom: 5px;
+    }
+
+    .prompt-box {
+      background: #F8FDFE;
+      border: 1.5px solid #B2EBF2;
+      border-radius: 10px;
+      padding: 12px 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.7;
+      margin: 10px 0;
+      white-space: pre-wrap;
+    }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      border-left: 4px solid #00BCD4;
+      background: #F0FAFB;
+      border-radius: 0 10px 10px 0;
+      padding: 13px 16px;
+      margin: 12px 0;
+      font-size: 14px;
+      line-height: 1.65;
+      color: #444;
+    }
+
+    .highlight-box.orange { border-left-color: #F7941D; background: #FFF8F0; }
+    .highlight-box.green  { border-left-color: #8DC63F; background: #F5FBF0; }
+
+    /* TABLA */
+    .norm-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .norm-table th {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #414042;
+      background: #F0F0F0;
+      padding: 9px 12px;
+      text-align: left;
+    }
+
+    .norm-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #F0F0F0;
+      vertical-align: top;
+      line-height: 1.55;
+      color: #555;
+    }
+
+    .norm-table tr:last-child td { border-bottom: none; }
+
+    .norm-table td:first-child {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      color: #414042;
+    }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; padding: 0; }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #F5F5F5;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #555;
+    }
+
+    .checklist li:last-child { border-bottom: none; }
+
+    .checklist li::before {
+      content: "✓";
+      color: #8DC63F;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .checklist li.no::before { content: "✗"; color: #E91E8C; }
+
+    /* TOC */
+    .toc { list-style: none; padding: 0; }
+
+    .toc li {
+      padding: 6px 0;
+      border-bottom: 1px solid #F0F0F0;
+      font-size: 13px;
+    }
+
+    .toc li:last-child { border-bottom: none; }
+
+    .toc a {
+      color: #00BCD4;
+      text-decoration: none;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .toc a:hover { text-decoration: underline; }
+
+    .toc .num {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      color: #ccc;
+      margin-right: 7px;
+      font-size: 11px;
+    }
+
+    /* ALERTA */
+    .alert {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      background: #FEF0F8;
+      border: 1.5px solid #F8BBD9;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 12px 0;
+    }
+
+    .alert .alert-icon { font-size: 20px; flex-shrink: 0; }
+
+    .alert .alert-text { font-size: 13px; color: #444; line-height: 1.6; }
+    .alert .alert-text strong { color: #E91E8C; font-family: 'Nunito', sans-serif; font-weight: 800; }
+
+    /* DOS COLUMNAS */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 520px) {
+      .two-col { grid-template-columns: 1fr; }
+      .manual-intro-top { flex-direction: column; }
+      #toggle-manual { width: 100%; justify-content: center; }
+    }
+
+    /* ────────────────────────────────────────────────────
+       DARK MODE OVERRIDES
+       ──────────────────────────────────────────────────── */
+    html.dark-mode body {
+      background: #120924;
+      color: #aaa5c0;
+    }
+    html.dark-mode .manual-intro, html.dark-mode .card {
+      background: #1b0f34;
+      color: #f5f0ff;
+    }
+    html.dark-mode .manual-intro h2, html.dark-mode .card h2, html.dark-mode .card h3 {
+      color: #f5f0ff;
+    }
+    html.dark-mode .manual-intro p, html.dark-mode .card p {
+      color: #aaa5c0;
+    }
+    html.dark-mode .steps li {
+      border-bottom-color: #2c1c4d;
+    }
+    html.dark-mode .steps li .step-title {
+      color: #f5f0ff;
+    }
+    html.dark-mode .steps li .step-desc {
+      color: #aaa5c0;
+    }
+    html.dark-mode .prompt-box {
+      background: #0d061c;
+      border-color: #2c1c4d;
+      color: #e8dcf7;
+    }
+    html.dark-mode .highlight-box {
+      background: #160b2d;
+      color: #aaa5c0;
+    }
+    html.dark-mode .highlight-box.orange {
+      background: #231221;
+    }
+    html.dark-mode .highlight-box.green {
+      background: #131d20;
+    }
+    html.dark-mode .norm-table th {
+      background: #120924;
+      color: #f5f0ff;
+    }
+    html.dark-mode .norm-table td {
+      border-bottom-color: #2c1c4d;
+      color: #aaa5c0;
+    }
+    html.dark-mode .norm-table td:first-child {
+      color: #f5f0ff;
+    }
+    html.dark-mode .checklist li {
+      border-bottom-color: #1c0e35;
+      color: #aaa5c0;
+    }
+    html.dark-mode .toc li {
+      border-bottom-color: #2c1c4d;
+    }
+    html.dark-mode .alert {
+      background: #2b0c26;
+      border-color: #4a133d;
+    }
+    html.dark-mode .alert .alert-text {
+      color: #f5f0ff;
+    }
+    html.dark-mode .alert .alert-text strong {
+      color: #E91E8C;
+    }
+    html.dark-mode .section-label span {
+      color: #f5f0ff;
+    }
+    html.dark-mode #revoke-cookies-btn {
+      background-color: #120924;
+      color: #f5f0ff;
+      border-color: #2c1c4d;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PEGAR ESTE BLOQUE EN ia.html, ANTES DE LOS PROMPTS
+     (incluir también el <script> del final)
+════════════════════════════════════════════════════════════════ -->
+<section id="manual-section">
+
+  <!-- CABECERA COLAPSABLE -->
+  <div class="manual-intro">
+    <div class="manual-intro-top">
+      <div>
+        <h2>📖 Cómo usar los prompts</h2>
+        <p>Guía de uso, buenas prácticas y normativa para un uso ético y responsable de la IA en Terapia Ocupacional.</p>
+      </div>
+      <button id="toggle-manual" onclick="toggleManual()" aria-expanded="false">
+        Ver manual completo <i class="arrow">▼</i>
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENIDO DESPLEGABLE -->
+  <div id="manual-content">
+
+    <!-- ÍNDICE -->
+    <div class="card">
+      <div class="section-label">
+        <span class="tri"></span>
+        <span>En este manual</span>
+      </div>
+      <ul class="toc">
+        <li><span class="num">01</span><a href="#m-que-es">¿Qué es un prompt y para qué sirve?</a></li>
+        <li><span class="num">02</span><a href="#m-como-usar">Cómo usar los prompts paso a paso</a></li>
+        <li><span class="num">03</span><a href="#m-categorias">Categorías de herramientas disponibles</a></li>
+        <li><span class="num">04</span><a href="#m-buenas-practicas">Buenas prácticas para mejores resultados</a></li>
+        <li><span class="num">05</span><a href="#m-privacidad">Privacidad y protección de datos</a></li>
+        <li><span class="num">06</span><a href="#m-normativa">Marco normativo que debes conocer</a></li>
+        <li><span class="num">07</span><a href="#m-limites">Qué puede y qué NO puede hacer la IA</a></li>
+        <li><span class="num">08</span><a href="#m-checklist">Checklist de uso responsable</a></li>
+      </ul>
+    </div>
+
+    <!-- 01 QUÉ ES UN PROMPT -->
+    <div id="m-que-es" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#00BCD4;"></span>
+        <span>01 · ¿Qué es un prompt?</span>
+      </div>
+      <h2>¿Qué es un prompt y para qué sirve?</h2>
+      <p>Un <strong>prompt</strong> es la instrucción o mensaje que le escribes a una herramienta de inteligencia artificial para indicarle qué quieres que haga. Es, en pocas palabras, la forma de hablarle a la IA.</p>
+      <p>Los prompts de <em>IA para TOdas</em> están diseñados y probados por terapeutas ocupacionales para tareas concretas del día a día: redactar informes, crear materiales para pacientes, buscar evidencia científica, planificar actividades o preparar documentación profesional.</p>
+      <div class="highlight-box green">
+        <strong>La idea es sencilla:</strong> en lugar de empezar desde cero cada vez, tienes un punto de partida optimizado que la propia comunidad de TOs ya ha refinado. Tú lo adaptas a tu caso y obtienes un resultado de mayor calidad en menos tiempo.
+      </div>
+      <p>Las herramientas son compatibles con los asistentes más comunes: <strong>ChatGPT, Claude, Gemini, Copilot</strong> y similares.</p>
+    </div>
+
+    <!-- 02 CÓMO USAR -->
+    <div id="m-como-usar" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#8DC63F;"></span>
+        <span>02 · Paso a paso</span>
+      </div>
+      <h2>Cómo usar los prompts en 5 pasos</h2>
+      <ol class="steps">
+        <li>
+          <div>
+            <div class="step-title">Filtra por categoría o usa el buscador</div>
+            <div class="step-desc">Usa el menú desplegable para filtrar por área clínica o escribe palabras clave en el buscador. Navega hasta encontrar el prompt que encaja con tu necesidad.</div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Lee el título y la descripción de la tarjeta</div>
+            <div class="step-desc">Cada tarjeta explica para qué sirve el prompt y en qué contexto se recomienda. Así te aseguras de elegir el más adecuado antes de copiarlo.</div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Copia el prompt con el botón "Copiar"</div>
+            <div class="step-desc">El texto completo queda en tu portapapeles listo para pegar. No necesitas seleccionarlo manualmente.</div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Pégalo en tu IA favorita y personaliza los [CORCHETES]</div>
+            <div class="step-desc">Los campos entre <code style="background:#F0F0F0;padding:2px 5px;border-radius:4px;font-size:12px;">[CORCHETES]</code> son los que tú completas con el contexto de tu caso. <strong>Nunca pongas datos personales del paciente en este paso.</strong></div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Revisa siempre el resultado antes de usarlo</div>
+            <div class="step-desc">La IA genera borradores. Antes de incorporar cualquier texto a un informe o comunicación oficial, léelo críticamente y verifica la terminología y la coherencia clínica.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- 03 CATEGORÍAS -->
+    <div id="m-categorias" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#F7941D;"></span>
+        <span>03 · Categorías disponibles</span>
+      </div>
+      <h2>¿Qué tipos de herramientas encontrarás?</h2>
+
+      <div style="margin-top:12px;">
+        <h3 style="color:#00BCD4;">💬 Prompts</h3>
+        <p>Instrucciones de texto listas para copiar y pegar en cualquier IA. El formato más versátil: cubren informes, cartas de derivación, materiales educativos, planificación de intervención, búsqueda de evidencia y más.</p>
+      </div>
+      <div style="margin-top:12px;">
+        <h3 style="color:#8DC63F;">💎 Gems</h3>
+        <p>Configuraciones especializadas para <strong>Google Gemini</strong>. Una vez activos, recuerdan el rol clínico en todas tus conversaciones. Ideal si usas Gemini como herramienta habitual.</p>
+      </div>
+      <div style="margin-top:12px;">
+        <h3 style="color:#F7941D;">🤖 GPTs</h3>
+        <p>Versiones personalizadas de <strong>ChatGPT</strong> configuradas para funciones específicas de TO. Funcionan como asistentes especializados que ya conocen el contexto de la profesión.</p>
+      </div>
+      <div style="margin-top:12px;">
+        <h3 style="color:#8B6BB1;">🧩 Artefactos</h3>
+        <p>Herramientas interactivas con interfaz propia: generadores, plantillas dinámicas. Funcionan directamente en el navegador para tareas donde la interacción ayuda a estructurar la información.</p>
+      </div>
+    </div>
+
+    <!-- 04 BUENAS PRÁCTICAS -->
+    <div id="m-buenas-practicas" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#8B6BB1;"></span>
+        <span>04 · Buenas prácticas</span>
+      </div>
+      <h2>Cómo obtener mejores resultados</h2>
+
+      <div style="margin-top:12px;">
+        <h3>Da contexto, no solo instrucciones</h3>
+        <p>Cuanto más contexto aportes (edad aproximada, diagnóstico genérico, entorno, objetivo), más útil será el resultado.</p>
+        <div class="prompt-label">Con poco contexto → resultado genérico</div>
+        <div class="prompt-box">Crea un programa de actividades para una persona mayor.</div>
+        <div class="prompt-label">Con contexto → resultado mucho más útil</div>
+        <div class="prompt-box">Crea un programa de actividades graduadas para una persona de 78 años con deterioro cognitivo leve que vive sola, con dificultades en AVD instrumentales pero buena capacidad de comunicación y motivación por las manualidades. Objetivo: mantener autonomía en el hogar.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <h3>Itera: pide ajustes sin empezar de nuevo</h3>
+        <div class="prompt-box">"Hazlo más breve y con lenguaje más sencillo para que lo entienda la familia."
+"Añade una sección sobre objetivos a corto plazo."
+"Cámbialo a un tono más formal para un informe médico."</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <h3>Los datos sensibles, siempre al final</h3>
+        <p>Los datos reales del paciente (nombre, diagnóstico concreto, centro…) se añaden <strong>a mano en el documento final</strong>, nunca dentro del prompt que envías a la IA.</p>
+      </div>
+    </div>
+
+    <!-- 05 PRIVACIDAD -->
+    <div id="m-privacidad" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#E91E8C;"></span>
+        <span>05 · Privacidad y datos</span>
+      </div>
+      <h2>Privacidad y protección de datos</h2>
+
+      <div class="alert">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-text">
+          <strong>Regla fundamental:</strong> Nunca introduzcas nombres, diagnósticos ni ninguna información sensible de pacientes en los prompts ni en los campos entre corchetes. La confidencialidad es responsabilidad de cada profesional.
+        </div>
+      </div>
+
+      <h3 style="margin-top:14px;margin-bottom:8px;">Qué nunca debes incluir</h3>
+      <ul class="checklist">
+        <li class="no">Nombre completo o iniciales del paciente</li>
+        <li class="no">Número de historia clínica o expediente</li>
+        <li class="no">Fecha de nacimiento exacta</li>
+        <li class="no">Dirección o localización concreta</li>
+        <li class="no">Diagnósticos vinculados a una persona identificable</li>
+        <li class="no">Datos de familiares o tutores</li>
+      </ul>
+
+      <h3 style="margin-top:16px;margin-bottom:8px;">Cómo anonimizar correctamente</h3>
+      <div style="overflow-x:auto;">
+        <table class="norm-table">
+          <thead>
+            <tr><th>En lugar de…</th><th>Escribe…</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>María García, 72 años</td><td>Paciente femenina de 72 años</td></tr>
+            <tr><td>ACV hace 3 semanas, Hospital La Paz</td><td>ACV isquémico hace 3 semanas, hospital público de referencia</td></tr>
+            <tr><td>C/ Mayor 12, piso 3º, Madrid</td><td>Piso sin ascensor, entorno urbano</td></tr>
+            <tr><td>Historia clínica nº 4820-23</td><td>Historia clínica del servicio</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="highlight-box" style="margin-top:14px;">
+        Con una anonimización adecuada, la IA puede ayudarte igualmente sin que ningún dato personal salga de tu control.
+      </div>
+    </div>
+
+    <!-- 06 NORMATIVA -->
+    <div id="m-normativa" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#F7941D;"></span>
+        <span>06 · Marco normativo</span>
+      </div>
+      <h2>Normativa que debes conocer</h2>
+      <p>El uso de IA en la práctica clínica no está al margen de la ley ni de los estándares profesionales. Estas son las referencias más relevantes para la práctica de la TO en España y Europa:</p>
+
+      <div style="overflow-x:auto; margin-top:14px;">
+        <table class="norm-table">
+          <thead>
+            <tr><th style="width:36%;">Normativa / Entidad</th><th>Lo que implica en tu práctica</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>RGPD (UE) 2016/679<br><span style="font-weight:400;color:#888;font-size:11px;">Reglamento General de Protección de Datos</span></td>
+              <td>No puedes introducir datos personales de pacientes en sistemas de IA externos sin anonimizar previamente. Los datos de salud son categoría especialmente protegida.</td>
+            </tr>
+            <tr>
+              <td>LOPDGDD<br><span style="font-weight:400;color:#888;font-size:11px;">Ley Orgánica 3/2018, España</span></td>
+              <td>Refuerza el RGPD en España y añade derechos digitales. Aplica a cualquier tratamiento de datos en territorio español.</td>
+            </tr>
+            <tr>
+              <td>Reglamento IA (UE) 2024/1689<br><span style="font-weight:400;color:#888;font-size:11px;">AI Act europeo</span></td>
+              <td>Los usos habituales (documentación, educación al paciente) son de <em>riesgo limitado</em>: debes informar a los pacientes cuando uses IA en su atención.</td>
+            </tr>
+            <tr>
+              <td>Estrategia IA SNS 2025<br><span style="font-weight:400;color:#888;font-size:11px;">Ministerio de Sanidad, España</span></td>
+              <td>La IA en salud debe ser fiable, útil, humanizadora y universal. Transparencia y supervisión humana son ejes centrales.</td>
+            </tr>
+            <tr>
+              <td>AOTA Policy E.19 (2025)</td>
+              <td>El juicio profesional del terapeuta no puede ser reemplazado por la IA. Tú siempre eres responsable de la decisión clínica final.</td>
+            </tr>
+            <tr>
+              <td>OMS — Ética e IA en Salud (2021)</td>
+              <td>Seis principios de obligado cumplimiento ético: autonomía humana, bienestar y seguridad, transparencia, responsabilidad, equidad y sostenibilidad.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="highlight-box orange" style="margin-top:14px;">
+        <strong>En resumen — tres pilares universales:</strong> supervisión humana siempre · protección estricta de la privacidad · práctica centrada en la persona.
+      </div>
+    </div>
+
+    <!-- 07 LÍMITES -->
+    <div id="m-limites" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#00BCD4;"></span>
+        <span>07 · Qué puede y qué no puede la IA</span>
+      </div>
+      <h2>Usos apropiados e inapropiados</h2>
+      <div class="two-col">
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;color:#8DC63F;margin-bottom:9px;text-transform:uppercase;letter-spacing:0.06em;">✓ La IA puede ayudarte a…</div>
+          <ul class="checklist">
+            <li>Redactar y estructurar informes (con tu revisión)</li>
+            <li>Generar materiales educativos para pacientes</li>
+            <li>Resumir artículos científicos</li>
+            <li>Proponer ideas para actividades graduadas</li>
+            <li>Adaptar textos a diferentes niveles de lectura</li>
+            <li>Crear plantillas de comunicación profesional</li>
+            <li>Organizar y estructurar información</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;color:#E91E8C;margin-bottom:9px;text-transform:uppercase;letter-spacing:0.06em;">✗ La IA no puede/debe…</div>
+          <ul class="checklist">
+            <li class="no">Emitir diagnósticos ni sustituir la evaluación clínica</li>
+            <li class="no">Tomar decisiones sobre admisión, alta o derivación</li>
+            <li class="no">Reemplazar la supervisión clínica real</li>
+            <li class="no">Garantizar que la información esté actualizada</li>
+            <li class="no">Asumir ninguna responsabilidad profesional</li>
+            <li class="no">Procesar datos identificables sin garantías legales</li>
+          </ul>
+        </div>
+      </div>
+      <div class="alert" style="margin-top:14px; background:#FFF8F0; border-color:#FFD9B0;">
+        <div class="alert-icon">💡</div>
+        <div class="alert-text" style="color:#555;">
+          <strong style="color:#F7941D;">Recuerda:</strong> La IA puede generar información incorrecta con total apariencia de veracidad (<em>alucinaciones</em>). Verifica siempre referencias bibliográficas, datos clínicos y contraindicaciones antes de aplicar.
+        </div>
+      </div>
+    </div>
+
+    <!-- 08 CHECKLIST -->
+    <div id="m-checklist" class="card">
+      <div class="section-label">
+        <span class="tri" style="border-bottom-color:#8DC63F;"></span>
+        <span>08 · Checklist de uso responsable</span>
+      </div>
+      <h2>Antes de usar un resultado de IA, comprueba que…</h2>
+      <ul class="checklist" style="margin-top:10px;">
+        <li>No he introducido ningún dato personal o identificable del paciente en el prompt</li>
+        <li>He leído el resultado completo y tiene sentido clínico</li>
+        <li>He verificado que la terminología y los datos concretos son correctos</li>
+        <li>He personalizado el borrador con el contexto real del paciente (a mano, en el documento final)</li>
+        <li>El documento lleva mi firma y asumo responsabilidad profesional plena</li>
+        <li>Si usé IA para elaborar un informe clínico, lo he indicado en el registro</li>
+        <li>He informado al paciente o familia si corresponde</li>
+        <li>El resultado final refleja mi criterio clínico, no solo el output de la IA</li>
+      </ul>
+      <div class="highlight-box green" style="margin-top:14px;">
+        <strong>La IA es una herramienta de apoyo. La responsabilidad profesional siempre es tuya.</strong>
+      </div>
+    </div>
+
+    <!-- BOTÓN CERRAR AL FINAL -->
+    <div style="text-align:center; padding:8px 0 16px;">
+      <button
+        onclick="toggleManual()"
+        style="background:none; border:1.5px solid #E0E0E0; border-radius:10px; padding:10px 22px;
+               font-family:'Nunito',sans-serif; font-weight:800; font-size:13px; color:#999; cursor:pointer;"
+        onmouseover="this.style.borderColor='#00BCD4';this.style.color='#00BCD4'"
+        onmouseout="this.style.borderColor='#E0E0E0';this.style.color='#999'">
+        ▲ Ocultar manual
+      </button>
+    </div>
+
+  </div><!-- /#manual-content -->
+
+</section>
+
+<script>
+  function toggleManual() {
+    const content = document.getElementById('manual-content');
+    const btn = document.getElementById('toggle-manual');
+    const isOpen = content.classList.contains('visible');
+
+    if (isOpen) {
+      content.classList.remove('visible');
+      btn.classList.remove('open');
+      btn.innerHTML = 'Ver manual completo <i class="arrow">▼</i>';
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      content.classList.add('visible');
+      btn.classList.add('open');
+      btn.innerHTML = 'Ocultar manual <i class="arrow">▲</i>';
+      btn.setAttribute('aria-expanded', 'true');
+      document.getElementById('manual-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+</script>
+
+<footer style="background: #333; color: white; padding: 2rem 0; margin-top: 3rem; text-align: center;">
+    <div class="container footer-content" style="display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 760px; margin: 0 auto; padding: 0 1rem;">
+        <div class="footer-logo" style="font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.2rem; color: white;">
+            <span style="color: #00A19B">Espacio</span> <span style="color: #F47B20">Tangram</span> <span style="color: #E91E63)">S.L.</span>
+        </div>
+        <div class="footer-legal" style="font-size: 0.85rem;">
+            <a href="aviso-legal.html" style="color: #999; text-decoration: none; margin: 0 8px;">Aviso Legal</a> | 
+            <a href="politica-privacidad.html" style="color: #999; text-decoration: none; margin: 0 8px;">Política de Privacidad</a> | 
+            <a href="politica-cookies.html" style="color: #999; text-decoration: none; margin: 0 8px;">Política de Cookies</a>
+        </div>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 0.5rem;">&copy; 2026 Centro Tangram. Todos los derechos reservados.</p>
+    </div>
+</footer>
+<script src="js/script.js?v=20260608_v3"></script>
+<script src="js/cookies.js?v=20260608_v3" defer></script>
+</body>
+</html>
