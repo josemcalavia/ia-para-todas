@@ -1,5 +1,7 @@
 # IA para TOdas: catálogo de prompts, Gems, GPTs y artefactos para Terapia Ocupacional
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23991253.svg)](https://doi.org/10.5281/zenodo.23991253)
+
 Catálogo abierto de 106 recursos de IA generativa (71 prompts, 10 Gems, 10 artefactos, 9 GPTs, 2 skills y agentes, y 4 juegos didácticos) para la práctica clínica, la docencia y la investigación en Terapia Ocupacional, con manual de uso responsable.
 
 Versión web: https://centrotangram.com/ia.html
@@ -20,9 +22,9 @@ Usa siempre datos anonimizados: nunca introduzcas datos que identifiquen a pacie
 
 ## Cómo citar
 
-Calavia Balduz, J. M. (2026). *IA para TOdas: catálogo de prompts, Gems, GPTs y artefactos para Terapia Ocupacional* (versión 1.0.2) [Conjunto de datos]. Centro Tangram. Zenodo.
+Calavia Balduz, J. M. (2026). *IA para TOdas: catálogo de prompts, Gems, GPTs y artefactos para Terapia Ocupacional* (versión 1.0.2) [Conjunto de datos]. Centro Tangram. Zenodo. https://doi.org/10.5281/zenodo.23991253
 
-El DOI aparecerá aquí cuando se publique la versión en Zenodo.
+DOI (todas las versiones): [10.5281/zenodo.23991253](https://doi.org/10.5281/zenodo.23991253)
 
 ## Licencia
 
