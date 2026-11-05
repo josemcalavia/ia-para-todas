@@ -20,7 +20,7 @@ Usa siempre datos anonimizados: nunca introduzcas datos que identifiquen a pacie
 
 ## Cómo citar
 
-Calavia Balduz, J. M. (2026). *IA para TOdas: catálogo de prompts, Gems, GPTs y artefactos para Terapia Ocupacional* (versión 1.0.1) [Conjunto de datos]. Centro Tangram. Zenodo.
+Calavia Balduz, J. M. (2026). *IA para TOdas: catálogo de prompts, Gems, GPTs y artefactos para Terapia Ocupacional* (versión 1.0.2) [Conjunto de datos]. Centro Tangram. Zenodo.
 
 El DOI aparecerá aquí cuando se publique la versión en Zenodo.
 
